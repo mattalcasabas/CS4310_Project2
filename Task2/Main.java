@@ -11,8 +11,8 @@ public class Main {
         String fileName = kb.nextLine();
         kb.close();
 
-        // create an arraylist to hold requests, which we will convert to an array later
-        ArrayList<Integer> requests = new ArrayList<>();
+        // create an array of size 1000 to hold requests
+        int[] requests = new int[1000];
 
         if(fileName.isEmpty()) {
 
@@ -20,6 +20,11 @@ public class Main {
         else {
 
         }
+
+        System.out.print("Enter previous cylinder location (0-4999): ");
+        int prevCyl = kb.nextInt();
+        System.out.print("Enter current cylinder location (0-4999): ");
+        int thisCyl = kb.nextInt();
     }
 
     public int[] generateRandomRequests() {
