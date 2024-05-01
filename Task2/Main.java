@@ -3,31 +3,51 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         System.out.print("Enter name of input file, or leave blank to generate 1000 random requests: ");
         String fileName = kb.nextLine();
-        kb.close();
+
 
         // create an array of size 1000 to hold requests
         int[] requests = new int[1000];
 
         if(fileName.isEmpty()) {
-
+            System.out.println("No file name given, will generate random requests.");
+            requests = generateRandomRequests();
         }
         else {
-
+            // read from file, place results in requests array
         }
 
         System.out.print("Enter previous cylinder location (0-4999): ");
         int prevCyl = kb.nextInt();
+        if (prevCyl < 0 || prevCyl > 5000) {
+            System.out.print("Invalid cylinder location.\n");
+            System.exit(1);
+        } 
+
         System.out.print("Enter current cylinder location (0-4999): ");
         int thisCyl = kb.nextInt();
+        if (thisCyl < 0 || thisCyl > 5000) {
+            System.out.print("Invalid cylinder location.\n");
+            System.exit(1);
+        } 
+
+        kb.close();
+
+        FCFS a1 = new FCFS(requests, thisCyl);
+        a1.schedule();
+        
+        System.out.println("FCFS total head movement: " + a1.getTotalMovement());
+        System.out.println("FCFS total head switches: " + a1.getHeadSwitches());
+
+
+
     }
 
-    public int[] generateRandomRequests() {
+    public static int[] generateRandomRequests() {
         int min = 0;
         int max = 4999;
         Random random = new Random();
