@@ -19,6 +19,19 @@ public class Main {
         }
         else {
             // read from file, place results in requests array
+            try {
+                File file = new File(fileName);
+                Scanner fileScanner = new Scanner(file);
+                int lineNum = 0;
+                // read lines from the file
+                while (fileScanner.hasNextLine()) {
+                    String line = fileScanner.nextLine();
+                    requests[lineNum++] = Integer.parseInt(line);
+                }
+                fileScanner.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         System.out.print("Enter previous cylinder location (0-4999): ");
@@ -38,11 +51,21 @@ public class Main {
         kb.close();
 
         FCFS a1 = new FCFS(requests, thisCyl);
+        SSTF a2 = new SSTF(requests, thisCyl);
+        SCAN a3 = new SCAN(requests, thisCyl, prevCyl);
+        C_SCAN a4 = new C_SCAN(requests, thisCyl, prevCyl);
         a1.schedule();
-        
         System.out.println("FCFS total head movement: " + a1.getTotalMovement());
         System.out.println("FCFS total head switches: " + a1.getHeadSwitches());
-
+        a2.schedule();
+        System.out.println("SSTF total head movement: " + a2.getTotalMovement());
+        System.out.println("SSTF total head switches: " + a2.getHeadSwitches());
+        a3.schedule();
+        System.out.println("SCAN total head movement: " + a3.getTotalMovement());
+        System.out.println("SCAN total head switches: " + a3.getHeadSwitches());
+        a4.schedule();
+        System.out.println("C-SCAN total head movement: " + a4.getTotalMovement());
+        System.out.println("C-SCAN total head switches: " + a4.getHeadSwitches());
 
 
     }

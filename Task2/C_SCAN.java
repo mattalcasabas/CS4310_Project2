@@ -3,14 +3,14 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-public class SCAN {
+public class C_SCAN {
     private ArrayList<Integer> requests;
     private int startCyl;
     private int prevCyl;
     private int totalMovement;
     private int totalHeadSwitches;
 
-    public SCAN(int[] requests, int startCyl, int prevCyl) {
+    public C_SCAN(int[] requests, int startCyl, int prevCyl) {
         this.requests = new ArrayList<>();
         for (int request : requests) {
             this.requests.add(request);
@@ -58,14 +58,14 @@ public class SCAN {
             boolean requestProcessed = false;
             while (iterator.hasNext()) {
                 int request = iterator.next();
-                if (direction.equals("right")) {
+                if (direction.equals("right") && request >= currentPos) {
                     // System.out.println("Moving " + direction + " from " + currentPos + " to " + request);
                     totalMovement += Math.abs(request - currentPos);
                     currentPos = request;
                     iterator.remove();
                     requestProcessed = true;
                     break;
-                } else if (direction.equals("left")) {
+                } else if (direction.equals("left") && request <= currentPos) {
                     // System.out.println("Moving " + direction + " from " + currentPos + " to " + request);
                     totalMovement += Math.abs(request - currentPos);
                     currentPos = request;
@@ -76,11 +76,15 @@ public class SCAN {
             }
     
             if (!requestProcessed) {
-                // If no request is processed, the head is at minCyl or maxCyl.
+                // Head reached end of disk, jump to opposite end
                 if (direction.equals("right")) {
-                    currentPos = minCyl;
-                } else {
+                    totalMovement += Math.abs(maxCyl - currentPos);
                     currentPos = maxCyl;
+                    direction = "left";
+                } else {
+                    totalMovement += Math.abs(minCyl - currentPos);
+                    currentPos = minCyl;
+                    direction = "right";
                 }
             }
     
