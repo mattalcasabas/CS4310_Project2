@@ -8,8 +8,11 @@ public class Main {
         int pageSize = 1024 * kb.nextInt();
         System.out.print("Enter virtual address: ");
         int virtAddr = kb.nextInt();
+        kb.close();
 
+        // get the page number
         int pageNum = virtAddr / pageSize;
+        // get the offset (how many addresses remaining?)
         int offset = virtAddr % pageSize;
 
         System.out.println("Page number: " + pageNum);

@@ -11,6 +11,15 @@ public class FCFS {
         this.startCyl = startCyl;
     }
 
+    private int getLastIndex() {
+        // Find the index of the last non-zero element
+        int lastIndex = requests.length - 1;
+        while (lastIndex >= 0 && requests[lastIndex] == 0) {
+            lastIndex--;
+        }
+        return lastIndex;
+    }
+
     public int getTotalMovement() {
         return totalMovement;
     }
@@ -23,7 +32,7 @@ public class FCFS {
         int difference = 0;
         int lastDifference = 0;
         totalMovement = Math.abs(requests[0] - startCyl);
-        for (int i = 0; i < requests.length - 1; i++) {
+        for (int i = 0; i < this.getLastIndex(); i++) {
             difference = requests[i + 1] - requests[i];
             if ((lastDifference < 0 && difference > 0) || (lastDifference > 0 && difference < 0)) {
                 totalHeadSwitches++;

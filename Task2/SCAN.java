@@ -52,7 +52,8 @@ public class SCAN {
         } else {
             maxCyl = currentPos;
         }
-    
+        
+        // iterate over the requests
         while (!requests.isEmpty()) {
             Iterator<Integer> iterator = requests.iterator();
             boolean requestProcessed = false;
@@ -87,11 +88,11 @@ public class SCAN {
             if (direction.equals("right") && currentPos == maxCyl) {
                 direction = "left";
                 totalHeadSwitches++;
-                System.out.println("Direction switched to left");
+                // System.out.println("Direction switched to left");
             } else if (direction.equals("left") && currentPos == minCyl) {
                 direction = "right";
                 totalHeadSwitches++;
-                System.out.println("Direction switched to right");
+                // System.out.println("Direction switched to right");
             }
         }
     }

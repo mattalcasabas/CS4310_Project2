@@ -9,6 +9,7 @@ public class C_SCAN {
     private int prevCyl;
     private int totalMovement;
     private int totalHeadSwitches;
+    private boolean requestProcessed;
 
     public C_SCAN(int[] requests, int startCyl, int prevCyl) {
         this.requests = new ArrayList<>();
@@ -17,6 +18,12 @@ public class C_SCAN {
         }
         this.startCyl = startCyl;
         this.prevCyl = prevCyl;
+        // remove trailing zeros
+        int lastIndex = this.requests.size() - 1;
+        while (lastIndex >= 0 && this.requests.get(lastIndex) == 0) {
+            this.requests.remove(lastIndex);
+            lastIndex--;
+        }
     }
 
     public int getTotalMovement() {
@@ -52,12 +59,13 @@ public class C_SCAN {
         } else {
             maxCyl = currentPos;
         }
-    
+        // iterate over the requests
         while (!requests.isEmpty()) {
             Iterator<Integer> iterator = requests.iterator();
-            boolean requestProcessed = false;
+            requestProcessed = false;
             while (iterator.hasNext()) {
                 int request = iterator.next();
+                // check if the request can be serviced based on the direction of head movement
                 if (direction.equals("right") && request >= currentPos) {
                     // System.out.println("Moving " + direction + " from " + currentPos + " to " + request);
                     totalMovement += Math.abs(request - currentPos);
@@ -74,9 +82,10 @@ public class C_SCAN {
                     break;
                 }
             }
-    
+            // if no request is processed in the inner loop, move the head to the opposite end of the disk
             if (!requestProcessed) {
-                // Head reached end of disk, jump to opposite end
+                System.out.println("requestProcessed = " + requestProcessed);
+                // Head reached end of disk, jump to opposite end and continue in the same direction
                 if (direction.equals("right")) {
                     totalMovement += Math.abs(maxCyl - currentPos);
                     currentPos = maxCyl;
@@ -91,11 +100,11 @@ public class C_SCAN {
             if (direction.equals("right") && currentPos == maxCyl) {
                 direction = "left";
                 totalHeadSwitches++;
-                System.out.println("Direction switched to left");
+                // System.out.println("Direction switched to left");
             } else if (direction.equals("left") && currentPos == minCyl) {
                 direction = "right";
                 totalHeadSwitches++;
-                System.out.println("Direction switched to right");
+                // System.out.println("Direction switched to right");
             }
         }
     }

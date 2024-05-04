@@ -13,6 +13,16 @@ public class SSTF {
             this.requests.add(request);
         }
         this.startCyl = startCyl;
+        // remove trailing zeros
+        int lastIndex = this.requests.size() - 1;
+        while (lastIndex >= 0 && this.requests.get(lastIndex) == 0) {
+            this.requests.remove(lastIndex);
+            lastIndex--;
+        }
+        // System.out.println("SSTF requests:");
+        // for (Integer element : this.requests) {
+        //     System.out.println(element);
+        // }
     }
 
     public int getTotalMovement() {
@@ -30,7 +40,7 @@ public class SSTF {
         while (requests.size() > 0) {
             int closestIndex = 0;
             int closestHeadMovement = Math.abs(requests.get(0) - currentPos);
-            for (int i = 0; i < requests.size() - 1; i++) {
+            for (int i = 0; i < requests.size(); i++) {
                 int currentHeadMovement = Math.abs(requests.get(i) - currentPos);
                 if (currentHeadMovement < closestHeadMovement) {
                     closestIndex = i;
